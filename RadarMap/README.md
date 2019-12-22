@@ -1,7 +1,8 @@
 # RadarMap
 Uses a Hologram Projector to display incoming redstone signals as dots on a vanilla Minecraft map in an Item Frame.  
 ![Screenshot](https://i.imgur.com/3nyV1Wv.png)
-Here: somewhere in Map 2
+Here: somewhere in Map 2.  
+The numbers and markers on the map are Wool Blocks placed in the world.
 
 ## Screenshots
 [A few Screenshots on Imgur](https://imgur.com/gallery/cMYWHkq)
