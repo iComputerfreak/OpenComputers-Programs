@@ -44,9 +44,6 @@ On each of the four Radar Controller Servers do the following:
 The sides (SIDE_1 = west and SIDE_2 = east) can be configured in `radarController.lua`  
 When you placed all 32 Redstone I/O, the script will exit. You now have an `addresses.txt` file in your `/home` directory, listing all the Redstone I/O addresses in the correct order.
 
-### Radar Controller Setup
-Change the variable `HOLOGRAM_CONTROLLER` in `radarController.lua` to the address of your Server that will play the Hologram Controller.
-
 ### Hologram Controller Setup
 The `hologramController` is configured to project a hologram over a 2x2 map, that is placed on a wall above the Hologram Projector with one vertical space in between and the Projector under the map on the left side.
 
@@ -78,3 +75,25 @@ and their dependencies. (There are some other Mods installed, but you don't need
 The test world also shows dropped items on the radar (for testing purposes). To change that, you have to change the filter settings in the Draconic Evolution Entity Detectors. Also only the first 16 Chunks have Entity Detectors and only Server 2 has a working Redstone I/O setup.
 
 If the test world doesn't work or you have problems or questions setting things up, feel free to open an Issue about it here.
+
+## WatchDog Setup (Optional)
+This Setup is not included in the Test World.  
+This section describes how to set up a WatchDog Server, that watches the four Radar Controller Servers and notifies you (via Redstone and Telegram Message), if one of them stops working.  
+The WatchDog Server needs a Network Card, Graphics Card and an Internet Card. It needs to be connected to the network that is used to send the Radar Updates.  
+In your `/home` directory, create two files `BOT_TOKEN` and `CHAT_ID` that contain the Telegram Bot Token and the Chat ID where your messages should be sent to.
+You also need to set up the list of addresses in `watchdog.lua` to contain the addresses of the Network Cards of the Radar Controllers in the correct order again.
+
+Now you can start the script. The WatchDog will wait for Keep Alive messages sent by the Radar Controllers. If a Radar Controller didn't sent a Keep Alive message (or any message) on the specified port (101) for more than 3 Minutes, the WatchDog will activate a Redstone I/O, send a Telegram message and quit.
+
+## AlertServer Setup (Optional)
+This Setup is not included in the Test World.  
+This section describes how to set up an Alert Server that notifies you when there is activity in one of your monitored chunks.
+The Alert Server needs a Network Card, Graphics Card and an Internet Card. It needs to be connected to the network that is used to send the Radar Updates.  
+In your `/home` directory, create two files `BOT_TOKEN` and `CHAT_ID` that contain the Telegram Bot Token and the Chat ID where your messages should be sent to.
+
+Now you can start the script. The Alert Server will receive the Updates messages (same as the Hologram Controller).
+If there is an update for a Chunk, the Alert Server does the following:
+- If it receives a Redstone Signal from the specified side (e.g. from an Online Detector), it outputs a Redstone signal via the specified output side.
+- If it doesn't receive a Redstone Signal from the specified side, it sends a Telegram Message.
+
+This way you can change the notification method via a Lever or an Online Detector (Redstone signal when you are online, Telegram message when you are offline).

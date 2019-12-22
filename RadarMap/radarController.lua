@@ -7,13 +7,17 @@ local modem = component.modem
 
 -- The number of chunks, this controller handles
 local MAX_CHUNK_INDEX = 64
+-- How long to wait after each update
 local SLEEP_TIME = 0.5
+-- After how many updates a KEEP_ALIVE message should be sent
+local KEEP_ALIVE_TIME = 60
+
 -- Side configuration of the Redstone I/O Components
 local SIDE_1 = sides.west
 local SIDE_2 = sides.east
 
-local HOLOGRAM_CONTROLLER = "85695943-f07e-46ff-ae02-17234de97794"
 local RADAR_PORT = 100
+local KEEP_ALIVE_PORT = 101
 
 -- Runtime variables
 local activeChunks = {}
@@ -44,7 +48,8 @@ function init ()
   
   file:close()
   print("Read " .. #addresses .. " addresses.")
-  modem.open(100)
+  modem.open(RADAR_PORT)
+  modem.open(KEEP_ALIVE_PORT)
 end
 
 function getChunkState (chunkID)
@@ -58,7 +63,7 @@ end
 function sendUpdate (chunkID, newState)
   print("Sending update for chunk " .. chunkID .. ": " .. ternary(newState, "ACTIVE", "INACTIVE") .. ".")
   -- Send packet
-  modem.send(HOLOGRAM_CONTROLLER, RADAR_PORT, chunkID, newState)
+  modem.broadcast(RADAR_PORT, chunkID, newState)
 end
 
 -- Updates the hologram map
@@ -74,10 +79,22 @@ function update ()
   end
 end
 
+function sendKeepAlive()
+  modem.broadcast(KEEP_ALIVE_PORT, "KEEP_ALIVE")
+end
+
 
 -- MAIN PROGRAM
+print("Monitoring started...")
 init()
+
+local keepAliveCounter = 0
 while true do
   update()
+  keepAliveCounter = keepAliveCounter + 1
+  if keepAliveCounter >= (KEEP_ALIVE_TIME / SLEEP_TIME) then
+    sendKeepAlive()
+	keepAliveCounter = 0
+  end
   os.sleep(SLEEP_TIME)
 end
