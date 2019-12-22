@@ -1,8 +1,15 @@
 # RadarMap
-Uses a Hologram Projector to display incoming redstone signals as dots on a vanilla Minecraft map in an Item Frame.
+Uses a Hologram Projector to display incoming redstone signals as dots on a vanilla Minecraft map in an Item Frame.  
+![Screenshot](https://i.imgur.com/3nyV1Wv.png)
+Here: somewhere in Map 2
+
+## Screenshots
+[A few Screenshots on Imgur](https://imgur.com/gallery/cMYWHkq)
 
 ## Setup
-This setup assumes, you want to use a 2x2 map. This way you can monitor an area of 16x16 chunks.
+This setup assumes, you want to use a 2x2 map. This way you can monitor an area of 16x16 chunks.  
+The scripts are written in a way that should allow customization to use more than 2x2 maps, but the Hologram Projector only supports a height of 32 pixels, so you will need to change the scale and other constants, so that one chunk on the map will be marked with 1 pixel instead of 2x2 pixels (default).  
+Only square maps are supported. For other formats, you will need to change some code.
 
 ### Preparation
 You will need a Player Detector from any mod in each chunk (placed in the middle with radius 8). This detector needs to send the redstone signal (preferably wireless) to your Redstone I/O ports.
@@ -65,6 +72,7 @@ Now you should be good to go. Start up the `radarController.lua` program on all 
 
 The Hologram should now mark every chunk on your 2x2 map, that contains a player (that sends a wireless redstone signal).
 
+### Test Map
 If you have problems setting this up, take a look at my example build in the `Radar Test.zip` world folder.  
 The test world uses MC 1.12.2 (Forge 14.23.5.2847) and the following Mods:
 - Draconic Evolution
