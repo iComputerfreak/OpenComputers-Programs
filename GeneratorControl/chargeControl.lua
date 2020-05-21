@@ -22,10 +22,10 @@ chatIDFile:close()
 
 local TELEGRAM_URL = "https://api.telegram.org/bot" .. TOKEN .. "/sendMessage"
 
--- Which side the battery buffer is connected to (currently only TOP works)
+-- Which side the battery buffer is connected to (my mod currently only supports TOP)
 local BUFFER_SIDE = sides.top
 -- Which side the Redstone I/O should output
-local REDSTONE_OUTPUT_SIDE = sides.top
+local REDSTONE_OUTPUT_SIDE = sides.right
 
 -- The strength of the modem signal (0 to disable, increase if the computer with the chargeDisplay.lua script doesn't retrieve the information)
 local STRENGTH = 20
@@ -35,9 +35,9 @@ local USE_PULSE = false
 -- If the percentage values should be checked per battery instead of per buffer
 local CHECK_PER_BATTERY = false
 -- The value at which the generator should turn on
-local MIN_CHARGE_PERCENT = 10
+local MIN_CHARGE_PERCENT = 20
 -- The value at which the generator should turn off
-local MAX_CHARGE_PERCENT = 90
+local MAX_CHARGE_PERCENT = 80
 
 
 local running = false
